@@ -41,7 +41,7 @@ Password: budi123
 Peran: Admin Pool
 Keterangan: Bertanggung jawab membuat pemesanan operasional dan mengelola kendaraan serta driver di pool.
 
-3. Penyetuju Tingkat Satu Atasan Langsung
+3. Penyetuju Tingkat Satu Atasan Langsung(Lv1)
 Nama: Ir. Hendra Wijaya
 Email: hendra@sekawan.com
 Password: hendra123
@@ -49,7 +49,7 @@ Jabatan: Kepala Seksi Operasional Tambang
 Peran: Approver Tingkat 1
 Keterangan: Bertugas memverifikasi permohonan awal dan jadwal tugas lapangan dari pemohon.
 
-4. Penyetuju Tingkat Dua Manajemen Operasional
+4. Penyetuju Tingkat Dua Manajemen Operasional(Lv2)
 Nama: Dr. Siti Rahayu
 Email: siti@sekawan.com
 Password: siti123
@@ -57,14 +57,14 @@ Jabatan: Manajer Operasional
 Peran: Approver Tingkat 2
 Keterangan: Bertugas memberikan otorisasi final sebelum kendaraan diizinkan keluar dan beroperasi.
 
-5. Penyetuju Tingkat Satu Alternatif
+5. Penyetuju Tingkat Satu Alternatif(Lv1)
 Nama: Drs. Bambang Sutrisno
 Email: bambang@sekawan.com
 Password: bambang123
 Jabatan: Kepala HRD
 Peran: Approver Tingkat 1
 
-6. Penyetuju Tingkat Dua Alternatif
+6. Penyetuju Tingkat Dua Alternatif(Lv2)
 Nama: Dra. Dewi Permata
 Email: dewi@sekawan.com
 Password: dewi123
