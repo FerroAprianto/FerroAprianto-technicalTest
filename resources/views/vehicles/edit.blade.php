@@ -1,0 +1,282 @@
+@extends('layouts.app')
+@section('title', 'Edit Kendaraan')
+@section('page-title', 'Edit Kendaraan: ' . $vehicle->plate_number)
+@section('page-subtitle', 'Perbarui data spesifikasi, lokasi penempatan, atau status pemeliharaan kendaraan.')
+@section('breadcrumb')
+    <a href="{{ route('dashboard') }}">Beranda</a>
+    <span class="separator">></span>
+    <a href="{{ route('vehicles.index') }}">Kendaraan</a>
+    <span class="separator">></span>
+    <span class="current">Edit</span>
+@endsection
+
+@section('content')
+<style>
+    .form-grid-2col {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #f1f5f9;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+        margin-bottom: 24px;
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        padding: 18px 24px;
+        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .form-card-header i {
+        color: #10b981;
+    }
+
+    .form-card-body {
+        padding: 24px;
+    }
+
+    .form-row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 8px;
+    }
+
+    .form-label .required {
+        color: #ef4444;
+        margin-left: 2px;
+    }
+
+    .form-input, .form-select-clean {
+        width: 100%;
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 13.5px;
+        color: #0f172a;
+        font-family: inherit;
+        outline: none;
+        transition: all 0.2s;
+    }
+
+    .form-input:focus, .form-select-clean:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+
+    .form-actions-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .btn-save-submit {
+        flex: 1;
+        height: 46px;
+        background: var(--btn-green);
+        color: #ffffff;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(27, 110, 78, 0.25);
+        transition: all 0.2s ease;
+    }
+
+    .btn-save-submit:hover {
+        background: var(--btn-green-hover);
+        transform: translateY(-1px);
+    }
+
+    .btn-cancel-back {
+        height: 46px;
+        padding: 0 20px;
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        color: #475569;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .btn-cancel-back:hover {
+        background: #f8fafc;
+        color: #0f172a;
+    }
+
+    @media (max-width: 1024px) {
+        .form-grid-2col {
+            grid-template-columns: 1fr;
+        }
+        .form-row-2 {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<form method="POST" action="{{ route('vehicles.update', $vehicle) }}">
+    @csrf
+    @method('PUT')
+    <div class="form-grid-2col">
+        <div>
+            <!-- Info Kendaraan -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <i class="fas fa-truck"></i>
+                    <span>Informasi Utama Kendaraan</span>
+                </div>
+                <div class="form-card-body">
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Plat Nomor Kendaraan <span class="required">*</span></label>
+                            <input type="text" name="plate_number" class="form-input" value="{{ old('plate_number', $vehicle->plate_number) }}" required style="text-transform: uppercase;">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Tahun Pembuatan <span class="required">*</span></label>
+                            <input type="number" name="year" class="form-input" value="{{ old('year', $vehicle->year) }}" min="1990" max="{{ date('Y') + 1 }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Merek Kendaraan <span class="required">*</span></label>
+                            <input type="text" name="brand" class="form-input" value="{{ old('brand', $vehicle->brand) }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Model Kendaraan <span class="required">*</span></label>
+                            <input type="text" name="model" class="form-input" value="{{ old('model', $vehicle->model) }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Jenis Angkutan <span class="required">*</span></label>
+                            <select name="type" class="form-select-clean" required>
+                                <option value="passenger" {{ old('type', $vehicle->type) == 'passenger' ? 'selected' : '' }}>Angkutan Orang</option>
+                                <option value="cargo" {{ old('type', $vehicle->type) == 'cargo' ? 'selected' : '' }}>Angkutan Barang / Logistik</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Warna Kendaraan</label>
+                            <input type="text" name="color" class="form-input" value="{{ old('color', $vehicle->color) }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operasional & Konsumsi BBM -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <i class="fas fa-gas-pump"></i>
+                    <span>Operasional & Konsumsi BBM</span>
+                </div>
+                <div class="form-card-body">
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Konsumsi BBM (km/liter)</label>
+                            <input type="number" step="0.1" name="fuel_consumption" class="form-input" value="{{ old('fuel_consumption', $vehicle->fuel_consumption) }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Kapasitas Tangki (Liter) <span class="required">*</span></label>
+                            <input type="number" name="fuel_capacity" class="form-input" value="{{ old('fuel_capacity', $vehicle->fuel_capacity) }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Lokasi Penempatan / Site Pool <span class="required">*</span></label>
+                        <input type="text" name="location" class="form-input" value="{{ old('location', $vehicle->location) }}" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Options -->
+        <div>
+            <div class="form-card" style="position: sticky; top: 100px;">
+                <div class="form-card-header">
+                    <i class="fas fa-sliders"></i>
+                    <span>Status & Kepemilikan</span>
+                </div>
+                <div class="form-card-body">
+                    <div class="form-group">
+                        <label class="form-label">Status Kepemilikan <span class="required">*</span></label>
+                        <select name="ownership" id="ownershipSelect" class="form-select-clean" onchange="toggleRentalField(this.value)" required>
+                            <option value="own" {{ old('ownership', $vehicle->ownership) == 'own' ? 'selected' : '' }}>Milik Sendiri</option>
+                            <option value="rental" {{ old('ownership', $vehicle->ownership) == 'rental' ? 'selected' : '' }}>Sewa (Rental)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="rentalCompanyWrap" style="{{ old('ownership', $vehicle->ownership) == 'rental' ? '' : 'display: none;' }}">
+                        <label class="form-label">Nama Perusahaan Rental</label>
+                        <input type="text" name="rental_company" class="form-input" value="{{ old('rental_company', $vehicle->rental_company) }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status Kendaraan</label>
+                        <select name="status" class="form-select-clean">
+                            <option value="available" {{ old('status', $vehicle->status) == 'available' ? 'selected' : '' }}>Tersedia</option>
+                            <option value="in_use" {{ old('status', $vehicle->status) == 'in_use' ? 'selected' : '' }}>Sedang Digunakan</option>
+                            <option value="maintenance" {{ old('status', $vehicle->status) == 'maintenance' ? 'selected' : '' }}>Dalam Perawatan</option>
+                        </select>
+                    </div>
+
+                    <hr style="border: none; border-top: 1px dashed #e2e8f0; margin: 20px 0;">
+
+                    <div class="form-actions-bar">
+                        <a href="{{ route('vehicles.index') }}" class="btn-cancel-back">Batal</a>
+                        <button type="submit" class="btn-save-submit">
+                            <i class="fas fa-save"></i>
+                            <span>Perbarui Kendaraan</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function toggleRentalField(val) {
+        const wrap = document.getElementById('rentalCompanyWrap');
+        if (val === 'rental') {
+            wrap.style.display = 'block';
+        } else {
+            wrap.style.display = 'none';
+        }
+    }
+</script>
+@endsection
